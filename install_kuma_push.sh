@@ -48,3 +48,6 @@ systemctl enable kuma-push.service
 systemctl start kuma-push.service
 
 echo "Установка завершена. Служба kuma-push запущена."
+
+# Удаление самого себя
+rm -- "$0"
