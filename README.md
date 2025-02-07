@@ -3,3 +3,4 @@ wget -O install_kuma_push.sh https://raw.githubusercontent.com/RAMMsila/kuma-pus
 chmod +x install_kuma_push.sh
 ./install_kuma_push.sh
 ```
+Теперь есть выбор типа сервера: main или node. В зависимости от выбора меняется путь установки скрипта. Скрипт для Main ставится в /opt/marzban, скрипт для node ставится в /opt/marzban-node.
