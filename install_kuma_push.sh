@@ -7,8 +7,8 @@ read -p "Введите Telegram Bot Token: " TELEGRAM_BOT_TOKEN
 read -p "Введите Telegram Chat ID: " TELEGRAM_CHAT_ID
 
 # URLs для скачивания файлов с GitHub
-SCRIPT_URL="https://raw.githubusercontent.com/ваш_репозиторий/ваш_проект/ветка/kuma-push.sh"
-SERVICE_URL="https://raw.githubusercontent.com/ваш_репозиторий/ваш_проект/ветка/kuma-push.service"
+SCRIPT_URL="https://raw.githubusercontent.com/RAMMsila/kuma-push/refs/heads/main/kuma-push.sh"
+SERVICE_URL="https://raw.githubusercontent.com/RAMMsila/kuma-push/refs/heads/main/kuma-push.service"
 
 # Пути для установки
 INSTALL_DIR="/opt/marzban"
@@ -30,8 +30,8 @@ sed -i "s|TELEGRAM_CHAT_ID=\"YOUR_TELEGRAM_CHAT_ID\"|TELEGRAM_CHAT_ID=\"$TELEGRA
 wget -O $SERVICE_PATH $SERVICE_URL
 
 # Замена плейсхолдеров в файле службы
-sed -i "s|--url \"[^\"]*\"|--url \"$URL\"|g" $SERVICE_PATH
-sed -i "s|--ping-host \"[^\"]*\"|--ping-host \"$PING_HOST\"|g" $SERVICE_PATH
+sed -i "s|--url \"PLACEHOLDER_URL\"|--url \"$URL\"|g" $SERVICE_PATH
+sed -i "s|--ping-host \"PLACEHOLDER_PING_HOST\"|--ping-host \"$PING_HOST\"|g" $SERVICE_PATH
 
 # Перезагрузка systemd и запуск службы
 systemctl daemon-reload
