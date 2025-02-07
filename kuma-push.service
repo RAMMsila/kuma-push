@@ -10,7 +10,7 @@ ExecStart=/opt/marzban/kuma-push.sh \
     --ping-timeout 2 \
     --interval 60 \
     --curl-timeout 10 \
-    --log off
+    --log on
 Restart=always
 User=root
 WorkingDirectory=/opt/marzban
