@@ -2,8 +2,8 @@
 
 # Запрос ввода от пользователя
 read -p "Введите тип сервера (main/node): " SERVER_TYPE
-read -p "Введите URL для параметра --url: " URL
-read -p "Введите хост для параметра --ping-host: " PING_HOST
+read -p "Введите URL для параметра --url (cсылка из Uptime-Kuma): " URL
+read -p "Введите хост для параметра --ping-host (ip/домен до которого будет идти TCP запрос): " PING_HOST
 read -p "Введите Telegram Bot Token: " TELEGRAM_BOT_TOKEN
 read -p "Введите Telegram Chat ID: " TELEGRAM_CHAT_ID
 
