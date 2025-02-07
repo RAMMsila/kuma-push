@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Запрос ввода от пользователя
+read -p "Введите тип сервера (main/node): " SERVER_TYPE
 read -p "Введите URL для параметра --url: " URL
 read -p "Введите хост для параметра --ping-host: " PING_HOST
 read -p "Введите Telegram Bot Token: " TELEGRAM_BOT_TOKEN
@@ -11,7 +12,11 @@ SCRIPT_URL="https://raw.githubusercontent.com/RAMMsila/kuma-push/refs/heads/main
 SERVICE_URL="https://raw.githubusercontent.com/RAMMsila/kuma-push/refs/heads/main/kuma-push.service"
 
 # Пути для установки
-INSTALL_DIR="/opt/marzban"
+if [ "$SERVER_TYPE" == "node" ]; then
+    INSTALL_DIR="/opt/marzban-node"
+else
+    INSTALL_DIR="/opt/marzban"
+fi
 SCRIPT_PATH="$INSTALL_DIR/kuma-push.sh"
 SERVICE_PATH="/etc/systemd/system/kuma-push.service"
 
@@ -32,6 +37,10 @@ wget -O $SERVICE_PATH $SERVICE_URL
 # Замена плейсхолдеров в файле службы
 sed -i "s|--url \"PLACEHOLDER_URL\"|--url \"$URL\"|g" $SERVICE_PATH
 sed -i "s|--ping-host \"PLACEHOLDER_PING_HOST\"|--ping-host \"$PING_HOST\"|g" $SERVICE_PATH
+
+# Замена пути установки в файле службы
+sed -i "s|/opt/marzban/kuma-push.sh|$SCRIPT_PATH|g" $SERVICE_PATH
+sed -i "s|WorkingDirectory=/opt/marzban|WorkingDirectory=$INSTALL_DIR|g" $SERVICE_PATH
 
 # Перезагрузка systemd и запуск службы
 systemctl daemon-reload
