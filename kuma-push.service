@@ -1,0 +1,19 @@
+[Unit]
+Description=Kuma Monitoring Script
+After=network.target
+
+[Service]
+ExecStart=/opt/marzban/kuma-push.sh \
+    --url "PLACEHOLDER_URL" \
+    --ping-host "PLACEHOLDER_PING_HOST" \
+    --ping-port 443 \
+    --ping-timeout 2 \
+    --interval 60 \
+    --curl-timeout 10 \
+    --log off
+Restart=always
+User=root
+WorkingDirectory=/opt/marzban
+
+[Install]
+WantedBy=multi-user.target
