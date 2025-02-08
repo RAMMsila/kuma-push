@@ -2,8 +2,8 @@
 
 # Запрос ввода от пользователя
 read -p "Введите тип сервера (main/node): " SERVER_TYPE
-read -p "Введите URL для параметра (из Uptime-Kuma) --url: " URL
-read -p "Введите хост (ip/домен до которого будет идти TCP запрос) для параметра --ping-host: " PING_HOST
+read -p "Введите URL для параметра --url: " URL
+read -p "Введите хост для параметра --ping-host: " PING_HOST
 read -p "Введите Telegram Bot Token: " TELEGRAM_BOT_TOKEN
 read -p "Введите Telegram Chat ID: " TELEGRAM_CHAT_ID
 
@@ -34,9 +34,13 @@ sed -i "s|TELEGRAM_CHAT_ID=\"YOUR_TELEGRAM_CHAT_ID\"|TELEGRAM_CHAT_ID=\"$TELEGRA
 # Скачивание и установка службы kuma-push.service
 wget -O $SERVICE_PATH $SERVICE_URL
 
+# Экранирование символов в переменной URL, например символа &
+ESCAPED_URL=$(echo "$URL" | sed 's/[&]/\\&/g')
+ESCAPED_PING_HOST=$(echo "$PING_HOST" | sed 's/[&]/\\&/g')
+
 # Замена плейсхолдеров в файле службы
-sed -i "s|PLACEHOLDER_URL|$URL|g" $SERVICE_PATH
-sed -i "s|PLACEHOLDER_PING_HOST|$PING_HOST|g" $SERVICE_PATH
+sed -i "s|--url \"PLACEHOLDER_URL\"|--url \"$ESCAPED_URL\"|g" $SERVICE_PATH
+sed -i "s|--ping-host \"PLACEHOLDER_PING_HOST\"|--ping-host \"$ESCAPED_PING_HOST\"|g" $SERVICE_PATH
 
 # Замена пути установки в файле службы
 sed -i "s|/opt/marzban/kuma-push.sh|$SCRIPT_PATH|g" $SERVICE_PATH
@@ -48,6 +52,3 @@ systemctl enable kuma-push.service
 systemctl start kuma-push.service
 
 echo "Установка завершена. Служба kuma-push запущена."
-
-# Удаление самого себя
-rm -- "$0"
