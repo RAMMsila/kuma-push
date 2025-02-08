@@ -73,7 +73,9 @@ send_telegram_notification() {
     local message=$1
     ip=$(hostname -I | awk '{ print $1 }')
     server_info=$(curl -s http://ip-api.com/json | jq -r '.isp + ", " + .city')
-    local full_message="$message\nIP: $ip. Server: $server_info."
+    # Используем echo -e для преобразования последовательности \n в реальный символ новой строки.
+    local full_message
+    full_message=$(echo -e "$message\nIP: $ip. Server: $server_info.")
     curl -s -X POST "$TELEGRAM_API_URL" \
         -d chat_id="$TELEGRAM_CHAT_ID" \
         -d text="$full_message" > /dev/null
